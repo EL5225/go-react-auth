@@ -4,12 +4,14 @@ export const setAuthToken = (token) => {
   if (token) {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     console.log(axios.defaults.headers)
-    return true
-  } else {
-    delete axios.defaults.headers.common["Authorization"];
-    return false
-  }
+  } 
 };
+
+export const resetAuthToken = () => {
+  delete axios.defaults.headers.common["Authorization"];
+  console.log(axios.defaults.headers)
+}
+
 
 export const login = async (userData) => {
   try {
@@ -61,6 +63,7 @@ export const logout = async() => {
     if(token) {
       await axios.post("https://goauthjwt-production.up.railway.app/api/logout", {})
       localStorage.removeItem("jwtToken")
+      resetAuthToken()
     } else{
       console.error("you are not login yet")
     }
